@@ -9,7 +9,7 @@ dotenv.config();
 const HTTP_PORT = process.env.PORT || 8080;
 
 app.use(cors({
-  origin: ['http://localhost:3000','https://your-vercel-app-name.vercel.app'],
+  origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app/'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
