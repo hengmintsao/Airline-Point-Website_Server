@@ -6,7 +6,11 @@ require('dotenv').config();
 
 const HTTP_PORT = process.env.PORT || 8080;
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000'], 
+  methods: ['GET', 'POST'],         
+  allowedHeaders: ['Content-Type'], 
+}));
 
 app.get('/calculator', async (req, res) => {
     const { iata } = req.query; 
