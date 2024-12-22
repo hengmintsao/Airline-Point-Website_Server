@@ -1,16 +1,14 @@
+const dotenv = require('dotenv');
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
-require('dotenv').config();
+dotenv.config();
 
 
 const HTTP_PORT = process.env.PORT || 8080;
 
-app.use(cors({
-  origin: ['http://localhost:3000'], 
-  methods: ['GET', 'POST'],         
-  allowedHeaders: ['Content-Type'], 
-}));
+app.use(cors());
 
 app.get('/calculator', async (req, res) => {
     const { iata } = req.query; 
