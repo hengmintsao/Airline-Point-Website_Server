@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "my-app-name/next.config.js",
+      "src": "server.js",
       "use": "@vercel/next"
     },
     {
@@ -13,7 +13,7 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/calculator",
       "dest": "server.js"
     },
     {
