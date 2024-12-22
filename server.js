@@ -8,7 +8,11 @@ dotenv.config();
 
 const HTTP_PORT = process.env.PORT || 8080;
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+}));
 
 app.get('/calculator', async (req, res) => {
     const { iata } = req.query; 
@@ -45,4 +49,5 @@ app.get('/calculator', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+  
 app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
