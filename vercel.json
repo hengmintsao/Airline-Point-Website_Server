@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "my-app-name/next.config.js",
+      "src": "airline-point-website/next.config.js",
       "use": "@vercel/next"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "my-app-name/$1"
+      "dest": "airline-point-website/$1"
     }
   ]
 }
