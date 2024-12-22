@@ -9,9 +9,9 @@ dotenv.config();
 const HTTP_PORT = process.env.PORT || 8080;
 
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000','https://your-vercel-app-name.vercel.app'],
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'], 
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
 
 app.get('/calculator', async (req, res) => {
@@ -49,5 +49,5 @@ app.get('/calculator', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-  
+console.log('RAPIDAPI_KEY:', process.env.RAPIDAPI_KEY);
 app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
