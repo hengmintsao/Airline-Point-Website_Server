@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -8,12 +8,20 @@ dotenv.config();
 
 const HTTP_PORT = process.env.PORT || 8080;
 
+const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors({
   origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
+
+mongoose.connect(MONGO_URL)
+  .then(()=>{console.log('Connect to MongoDB!')})
+  .catch((err)=>{
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+});
 
 app.get('/calculator', async (req, res) => {
     const { iata } = req.query; 
