@@ -186,15 +186,15 @@ app.get('/calculator', async (req, res) => {
 console.log('RAPIDAPI_KEY:', process.env.RAPIDAPI_KEY);
 
 
-app.connect()
-.then(() =>{
-  app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
-}).catch((err) => {
-  console.log("unable to start the server: " + err);
-  process.exit();
-});
+// app.connect()
+// .then(() =>{
+//   app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
+// }).catch((err) => {
+//   console.log("unable to start the server: " + err);
+//   process.exit();
+// });
 
-//app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
+app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
 
 
 // userService.connect()
