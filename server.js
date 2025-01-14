@@ -14,17 +14,18 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 const MONGO_URL = process.env.MONGO_URL;
 
-// app.use(cors({
-//   origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app'],
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
-// }));
-
 app.use(cors({
-  origin: ['*'],
+  origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app'],
+  withCredentials:false, // add this
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
+
+// app.use(cors({
+//   origin: ['*'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
+// }));
 
 // app.options('*', cors()); // test
 
