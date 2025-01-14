@@ -147,6 +147,7 @@ app.delete("/api/user/history/:id", passport.authenticate('jwt', {session: false
 });
 
 
+
 app.get('/calculator', async (req, res) => {
     const { iata } = req.query; 
   
