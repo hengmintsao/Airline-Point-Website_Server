@@ -9,9 +9,13 @@ let Schema = mongoose.Schema;
 let userSchema = new Schema({
     userName:{
         type: String,
-        unique: true
+        unique: true,
+        required: true,
     },
-    password: String,
+    password: {
+        type:String,
+        required: true,
+    },
     email:{
         type: String,
         required: true,
