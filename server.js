@@ -52,6 +52,7 @@ passport.use(strategy);
 app.use(express.json());
 app.use(passport.initialize());
 
+// Register
 app.post("/api/user/register", (req, res) => {
   userService.registerUser(req.body)
   .then((msg) => {
@@ -60,6 +61,60 @@ app.post("/api/user/register", (req, res) => {
       res.status(422).json({ "message": msg });
   });
 });
+
+// Login
+app.post("api/user/login", (req,res)=>{
+  userService.checkUser(req.body)
+  .then((user) =>{
+    const payload ={
+      _id:user._id,
+      userName: user.userName,
+    };
+
+    const token = jwt.sign(payload,process.envv.JWT_SECRET);
+
+    res.json({"message": "Login successful",
+      "token": token
+    });
+  }).catch(msg =>{
+    res.status(422).json({"message":msg});
+  });
+});
+
+// get comparsion list
+app.get("/api/user/comparsion"), passport.authenticate('jwt', { session: false }, (req, res) =>{
+  userService.getComparsion(req.user._id)
+  .then(data =>{
+    res.json(data);
+  }).catch(msg =>{
+    res.status(422).json({error: msg});
+  });
+});
+
+
+// Add comparsion list
+app.put("/api/user/comparsion/:id", passport.authenticate('jwt', {session: false}), (req, res) =>{
+  userService.addComparsion(req.user._id, req.params.id)
+  .then(data =>{
+    res.json(data)
+  }).catch(msg =>{
+    res.status(422).json({ error: msg });
+  });
+});
+
+// Delete comparsion list
+
+app.delete("/api/user/comparsion/:id", passport.authenticate('jwt', {session : false}), (req, res) =>{
+  userService.removeComparsion(req.user._id, req.params.id)
+  .then(data =>{
+    res.json(data)
+  }).catch(msg =>{
+    res.status(422).json({error: msg});
+  });
+});
+
+
+
 
 app.get('/calculator', async (req, res) => {
     const { iata } = req.query; 
