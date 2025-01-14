@@ -20,6 +20,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
 
+app.options('*', cors()); // test
+
 mongoose.connect(MONGO_URL)
   .then(()=>{console.log('Connect to MongoDB!')})
   .catch((err)=>{
@@ -157,6 +159,7 @@ app.get('/api/user/calculator', async (req, res) => {
   
     try {
       
+      console.log('Fetching airport data for:', iata); // test
       const response = await fetch(
         `https://airport-info.p.rapidapi.com/airport?iata=${iata}`,
         {
