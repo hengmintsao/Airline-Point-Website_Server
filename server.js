@@ -16,7 +16,7 @@ const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors({
   origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app'],
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
 
@@ -63,7 +63,7 @@ app.post("/api/user/register", (req, res) => {
 });
 
 // Login
-app.post("api/user/login", (req,res)=>{
+app.post("/api/user/login", (req,res)=>{
   userService.checkUser(req.body)
   .then((user) =>{
     const payload ={
@@ -71,7 +71,7 @@ app.post("api/user/login", (req,res)=>{
       userName: user.userName,
     };
 
-    const token = jwt.sign(payload,process.envv.JWT_SECRET);
+    const token = jwt.sign(payload,process.env.JWT_SECRET);
 
     res.json({"message": "Login successful",
       "token": token
@@ -82,7 +82,7 @@ app.post("api/user/login", (req,res)=>{
 });
 
 // get comparsion list
-app.get("/api/user/comparsion"), passport.authenticate('jwt', { session: false }, (req, res) =>{
+app.get("/api/user/comparsion", passport.authenticate('jwt', { session: false }), (req, res) =>{
   userService.getComparsion(req.user._id)
   .then(data =>{
     res.json(data);
@@ -114,6 +114,37 @@ app.delete("/api/user/comparsion/:id", passport.authenticate('jwt', {session : f
 });
 
 
+// Get History
+app.get("/api/user/history", passport.authenticate('jwt', {session:false}), (req,res) =>{
+  userService.getHistory(req.user._id)
+  .then(data =>{
+    res.json(data);
+  }).catch( msg =>{
+    res.status(422).json({ error:msg });
+  });
+});
+
+
+// Add history
+app.put("/api/user/history/:id", passport.authenticate('jwt', {session:false}), (req,res) =>{
+  userService.addHistory(req.user._id, req.params.id)
+  .then(data =>{
+    res.json(data);
+  }).catch( msg =>{
+    res.status(422).json({error : msg});
+  });
+});
+
+
+// Delete history
+app.delete("/api/user/history/:id", passport.authenticate('jwt', {session: false}), (req, res) =>{
+  userService.removeHistory(req.user._id, req.params.id)
+  .then(data =>{
+    res.json(data);
+  }).catch(msg =>{
+    res.status(422).json({error : msg});
+  });
+});
 
 
 app.get('/calculator', async (req, res) => {
@@ -152,4 +183,20 @@ app.get('/calculator', async (req, res) => {
     }
   });
 console.log('RAPIDAPI_KEY:', process.env.RAPIDAPI_KEY);
-app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
+
+
+app.connect()
+.then(() =>{
+  app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
+}).catch((err) => {
+  console.log("unable to start the server: " + err);
+  process.exit();
+});
+
+//app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
+
+
+// userService.connect()
+// .then(() => {
+//     app.listen(HTTP_PORT, () => { console.log("API listening on: " + HTTP_PORT) });
+// })
