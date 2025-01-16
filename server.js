@@ -202,7 +202,22 @@ app.get('/api/user/calculator', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-console.log('RAPIDAPI_KEY:', process.env.RAPIDAPI_KEY);
+//console.log('RAPIDAPI_KEY:', process.env.RAPIDAPI_KEY); test code
+
+app.get('/api/users/countries', async(req,res) =>{
+  try{
+    const response = await fetch('https://www.apicountries.com/countries');
+    if (!response.ok) {
+
+      throw new Error(`Error fetching countries: ${response.statusText}`);
+    }
+    const data = await response.json();
+    res.json(data);
+
+  }catch(err){
+    res.status(500).json({error: err.message});
+  }
+});
 
 
 // app.connect()
