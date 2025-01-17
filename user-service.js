@@ -49,7 +49,7 @@ module.exports.connect = function(){
         let db = mongoose.createConnection(mongoDBConnection);
 
         db.on('error', err => {
-            reject(err);
+            reject(err.message);
         });
 
         db.once('open', () =>{
@@ -99,7 +99,7 @@ module.exports.registerUser = function (userData){
                     reject("There was an error creating the user: " + err.message);
                 }
             })
-        }).catch(err => reject(err));
+        }).catch(err => reject(err.message));
     });
 };
 
