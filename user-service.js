@@ -96,7 +96,7 @@ module.exports.registerUser = function (userData){
                 if(err.code == 11000){
                     reject("User name already taken");
                 }else{
-                    reject("There was an error creating the user: " + err);
+                    reject("There was an error creating the user: " + err.message);
                 }
             })
         }).catch(err => reject(err));
