@@ -64,6 +64,7 @@ module.exports.connect = function(){
 
 // Register a new user, hash password and save the user data to the database
 module.exports.registerUser = function (userData){
+    console.log("Received userData:", userData);
     return new Promise(function (resolve, reject){
 
         if(userData.password != userData.password2){
