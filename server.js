@@ -72,6 +72,7 @@ app.use(passport.initialize());
 
 // Register
 app.post("/api/user/register", (req, res) => {
+  console.log("Request body:", req.body); // test code
   userService.registerUser(req.body)
   .then((msg) => {
       res.json({ "message": msg });
