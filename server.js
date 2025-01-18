@@ -145,7 +145,7 @@ app.get("/api/user/history", passport.authenticate('jwt', {session:false}), (req
 
 
 // Add history
-app.put("/api/user/history/:id", passport.authenticate('jwt', {session:false}), (req,res) =>{
+app.put("/api/user/history", passport.authenticate('jwt', {session:false}), (req,res) =>{
   userService.addHistory(req.user._id, req.body.historyData )
   .then(data =>{
     res.json(data);
