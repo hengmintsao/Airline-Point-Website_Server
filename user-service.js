@@ -54,7 +54,7 @@ module.exports.connect = function(){
 
         db.once('open', () =>{
             User = db.model("users", userSchema);
-            resolve();
+            resolve(User);
         });
 
     });
