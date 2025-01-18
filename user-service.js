@@ -37,7 +37,7 @@ let userSchema = new Schema({
     preferenceCarrier: [String],
     preferenceAlliance: [String],
     comparsion: [String],
-    history: [String]
+    history: [Schema.Types.Mixed],
 });
 
 let User;

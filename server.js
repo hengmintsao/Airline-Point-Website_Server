@@ -147,6 +147,7 @@ app.get("/api/user/history", passport.authenticate('jwt', {session:false}), (req
 // Add history
 app.put("/api/user/history", passport.authenticate('jwt', {session:false}), (req,res) =>{
   const {historyData} = req.body;
+  console.log('Received historyData:', historyData);
   if (!historyData) {
     return res.status(400).json({ error: 'Missing historyData in request body' });
 }
