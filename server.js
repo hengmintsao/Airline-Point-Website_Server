@@ -229,10 +229,10 @@ app.get('/api/users/countries', async(req,res) =>{
 //   process.exit();
 // });
 
-app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
+//app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
 
 
-// userService.connect()
-// .then(() => {
-//     app.listen(HTTP_PORT, () => { console.log("API listening on: " + HTTP_PORT) });
-// })
+userService.connect()
+.then(() => {
+    app.listen(HTTP_PORT, () => { console.log("API listening on: " + HTTP_PORT) });
+})
