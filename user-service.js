@@ -186,12 +186,12 @@ module.exports.getHistory = function(id){
 };
 
 // Add the user's history list into database 
-module.exports.addHistory = function(id, historyId){
+module.exports.addHistory = function(id, historyData ){
     return new Promise(function(resolve, reject){
         User.findById(id).exec().then(user =>{
             if(user.history.length < 20){
                 User.findByIdAndUpdate(id,
-                    {$addToSet: {history:historyId}},
+                    {$addToSet: {history:historyData }},
                     {new: true}
             ).exec()
                 .then(user =>
