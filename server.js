@@ -161,8 +161,9 @@ app.put("/api/user/history", passport.authenticate('jwt', {session:false}), (req
 
 
 // Delete history
-app.delete("/api/user/history/:id", passport.authenticate('jwt', {session: false}), (req, res) =>{
-  userService.removeHistory(req.user._id, req.params.id)
+app.delete("/api/user/history", passport.authenticate('jwt', {session: false}), (req, res) =>{
+  const {historyData} = req.body;
+  userService.removeHistory(req.user._id, historyData)
   .then(data =>{
     res.json(data);
   }).catch(msg =>{

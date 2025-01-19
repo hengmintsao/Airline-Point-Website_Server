@@ -205,10 +205,10 @@ module.exports.addHistory = function(id, historyData ){
 };
 
 // Remove the user's comparsion list into database 
-module.exports.removeHistory = function (id, historyId){
+module.exports.removeHistory = function (id, historyData){
     return new Promise(function(resolve, reject){
         User.findByIdAndUpdate(id,
-            {$pull: {history:historyId}},
+            {$pull: {history:historyData}},
             {new:true}
         ).exec()
             .then(user =>{
