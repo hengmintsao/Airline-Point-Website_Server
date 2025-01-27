@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const userService = require('./user-service.js');
+const fs = require('fs');
+const Airport = require('./airport-data.js');
+const test = require('../side project/airport_database.txt')
 dotenv.config();
 
 
@@ -45,6 +48,37 @@ mongoose.connect(MONGO_URL)
     process.exit(1);
 });
 
+async function initializeAirportData(){
+  const dataPath = '../side project/airport_database.txt';
+  const airportCount = await Airport.countDocuments();
+
+  if(airportCount === 0){
+    console.log('No airport data.');
+  }
+
+  const fileContent = fs.readFileSync(dataPath);
+  const lines = fileContent.split('\n');
+  const header = lines.shift();
+
+  for (const line of lines) {
+    const [icao, iata, name, city, subd, country, elevation, lat, lon, tz, lid] = line.split(',');
+
+    if (!iata || iata.trim() === '') continue;
+
+    const displayName = `${iata.trim()} - ${name.trim()}, ${city.trim()}, ${country.trim()}`;
+
+
+    try {
+      
+      await Airport.create({
+        iata: iata.trim(),
+        displayName,
+      });
+    } catch (err) {
+      console.error(`There is an error inserting data: ${line}`, err.message);
+    }
+  }
+}
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
 
@@ -241,4 +275,5 @@ app.get('/api/users/countries', async(req,res) =>{
 userService.connect()
 .then(() => {
     app.listen(HTTP_PORT, () => { console.log("API listening on: " + HTTP_PORT) });
+    initializeAirportData();
 })
