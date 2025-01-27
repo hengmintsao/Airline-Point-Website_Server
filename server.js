@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+dotenv.config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -7,10 +8,11 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const userService = require('./user-service.js');
-const fs = require('fs');
-const Airport = require('./airport-data.js');
+// const fs = require('fs'); // For adding airport data purpose(Finished)
+// const Airport = require('./airport-data.js'); // For adding airport data purpose(Finished)
 const test = require('../side project/airport_database.txt')
-dotenv.config();
+
+
 
 
 const HTTP_PORT = process.env.PORT || 8080;
@@ -48,37 +50,39 @@ mongoose.connect(MONGO_URL)
     process.exit(1);
 });
 
-async function initializeAirportData(){
-  const dataPath = '../side project/airport_database.txt';
-  const airportCount = await Airport.countDocuments();
 
-  if(airportCount === 0){
-    console.log('No airport data.');
-  }
+// For adding airport data purpose(Finished)
+// function initializeAirportData(){
+//   const dataPath = '../side project/airport_database.txt';
+//   const airportCount = Airport.countDocuments();
 
-  const fileContent = fs.readFileSync(dataPath);
-  const lines = fileContent.split('\n');
-  const header = lines.shift();
+//   if(airportCount === 0){
+//     console.log('No airport data.');
+//   }
 
-  for (const line of lines) {
-    const [icao, iata, name, city, subd, country, elevation, lat, lon, tz, lid] = line.split(',');
+//   const fileContent = fs.readFileSync(dataPath, 'utf-8');
+//   const lines = fileContent.split('\n');
+//   const header = lines.shift();
 
-    if (!iata || iata.trim() === '') continue;
+//   for (const line of lines) {
+//     const [icao, iata, name, city, subd, country] = line.split(',').map(field => field.replace(/^"|"$/g, '').trim());
 
-    const displayName = `${iata.trim()} - ${name.trim()}, ${city.trim()}, ${country.trim()}`;
+//     if (!iata || iata.trim() === '' || iata.trim().length === 0) continue;
+
+//     const displayName = `${iata.trim()} - ${name.trim()}, ${city.trim()}, ${country.trim()}`;
 
 
-    try {
+//     try {
       
-      await Airport.create({
-        iata: iata.trim(),
-        displayName,
-      });
-    } catch (err) {
-      console.error(`There is an error inserting data: ${line}`, err.message);
-    }
-  }
-}
+//       Airport.create({
+//         iata: iata.trim(),
+//         displayName,
+//       });
+//     } catch (err) {
+//       console.error(`There is an error inserting data: ${line}`, err.message);
+//     }
+//   }
+// }
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
 
@@ -275,5 +279,5 @@ app.get('/api/users/countries', async(req,res) =>{
 userService.connect()
 .then(() => {
     app.listen(HTTP_PORT, () => { console.log("API listening on: " + HTTP_PORT) });
-    initializeAirportData();
+    // initializeAirportData(); // For adding airport data purpose(Finished)
 })
