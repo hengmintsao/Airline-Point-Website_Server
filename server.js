@@ -152,7 +152,7 @@ app.get("/api/user/profile", passport.authenticate('jwt', { session: false }), (
 
 // Update user info
 
-app.put("api/user/profile", passport.authenticate('jwt', {session:false}), (req, res) =>{
+app.put("/api/user/profile", passport.authenticate('jwt', {session:false}), (req, res) =>{
   const userId = req.user._id;
   const updateData = req.body;
   userService.updateUserProfile(userId, updateData)
