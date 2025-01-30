@@ -128,7 +128,7 @@ module.exports.checkUser = function(userData){
 // Get user information by userName
 module.exports.getUserById = function (id) {
     return new Promise(function (resolve, reject) {
-      User.findById({ id })
+      User.findById(id)
         .select("-password") 
         .exec()
         .then(user => {
