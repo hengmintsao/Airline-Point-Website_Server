@@ -124,6 +124,26 @@ module.exports.checkUser = function(userData){
     });
 };
 
+
+// Get user information
+
+module.exports.getUser = function (id){
+    return new Promise(function(resolve, reject){
+        User.findById(id)
+        .select('-password')
+        .exec()
+        .then(user =>{
+            if(user){
+                resolve(user);
+            }else{
+                reject(`User with id ${id} not found`);
+            }
+        }).catch(err =>{
+            reject(`Error finding user: ${ err.message}`);
+        });
+    });
+}
+
 // Get the user comparsion list from database
 module.exports.getComparsion = function(id){
     return new Promise(function(resolve, reject){

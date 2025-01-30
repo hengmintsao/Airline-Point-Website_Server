@@ -136,6 +136,18 @@ app.post("/api/user/login", (req,res)=>{
   });
 });
 
+
+// Get user information by ID
+app.get("/api/user", passport.authenticate('jwt', {session: false}), (req,res) =>{
+  userService.getUser(req.user._id)
+    .then(user =>{
+      res.json(user);
+    }).catch(msg =>{
+      res.status(404).json({error:msg});
+    })
+})
+
+
 // get comparsion list
 app.get("/api/user/comparsion", passport.authenticate('jwt', { session: false }), (req, res) =>{
   userService.getComparsion(req.user._id)
