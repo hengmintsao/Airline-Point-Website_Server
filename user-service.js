@@ -199,6 +199,8 @@ module.exports.addHistory = function(id, historyData ){
                 ).catch(err =>{
                     {reject(`Unable to update history for id: ${id}`)};
                 }); 
+            }else{
+                reject(`User history has reached the maximum limit of 20.`);
             }
         });
     });
