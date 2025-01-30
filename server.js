@@ -143,8 +143,9 @@ app.post("/api/user/login", (req,res)=>{
 
 
 // Get user information by ID
-app.get("/api/user", passport.authenticate('jwt', {session: false}), (req,res) =>{
-  userService.getUser(req.user._id)
+app.get("/api/user/profile/:userName", passport.authenticate('jwt', {session: false}), (req,res) =>{
+  const { userName } = req.params;
+  userService.getUserByUserName(userName)
     .then(user =>{
       res.json(user);
     }).catch(msg =>{
