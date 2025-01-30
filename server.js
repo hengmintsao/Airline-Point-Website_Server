@@ -121,9 +121,14 @@ app.post("/api/user/register", (req, res) => {
 app.post("/api/user/login", (req,res)=>{
   userService.checkUser(req.body)
   .then((user) =>{
-    const payload ={
-      _id:user._id,
+    const payload = {
+      _id: user._id,
       userName: user.userName,
+      email: user.email,
+      nationality: user.nationality,
+      mainAirport: user.mainAirport,
+      preferenceCarrier: user.preferenceCarrier,
+      preferenceAlliance: user.preferenceAlliance,
     };
 
     const token = jwt.sign(payload,process.env.JWT_SECRET);
