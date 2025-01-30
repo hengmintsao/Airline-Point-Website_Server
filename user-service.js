@@ -135,7 +135,7 @@ module.exports.getUserById = function (id) {
           if (user) {
             resolve(user);
           } else {
-            reject(`User with userName ${userName} not found`);
+            reject(`User with userName ${id} not found`);
           }
         })
         .catch(err => {

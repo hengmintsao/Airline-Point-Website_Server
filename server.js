@@ -138,17 +138,16 @@ app.post("/api/user/login", (req,res)=>{
 
 
 // Get user information by ID
-app.get("/api/user/profile", passport.authenticate('jwt', {session: false}), (req,res) =>{
-  const userId = req.user._id;
-
-
+app.get("/api/user/profile", passport.authenticate('jwt', { session: false }), (req, res) => {
+  const userId = req.user._id; 
   userService.getUserById(userId)
-    .then(user =>{
-      res.json(user);
-    }).catch(msg =>{
-      res.status(404).json({error:msg});
-    })
-})
+      .then(user => {
+          res.json(user);
+      })
+      .catch(msg => {
+          res.status(404).json({ error: msg });
+      });
+});
 
 
 // get comparsion list
