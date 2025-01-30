@@ -139,6 +139,7 @@ app.post("/api/user/login", (req,res)=>{
 
 // Get user information by ID
 app.get("/api/user/profile", passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log("Authenticated user:", req.user); 
   const userId = req.user._id; 
   userService.getUserById(userId)
       .then(user => {
@@ -148,6 +149,19 @@ app.get("/api/user/profile", passport.authenticate('jwt', { session: false }), (
           res.status(404).json({ error: msg });
       });
 });
+
+// Update user info
+
+app.put("api/user/profile", passport.authenticate('jwt', {session:false}), (req, res) =>{
+  const userId = req.user._id;
+  const updateData = req.body;
+  userService.updateUserProfile(userId, updateData)
+    .then(updatedUser =>{
+      res.json(updatedUser);
+    }).catch(msg =>{
+      res.status(422).json({error: msg});
+    });
+})
 
 
 // get comparsion list

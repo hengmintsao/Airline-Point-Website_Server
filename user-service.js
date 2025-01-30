@@ -144,6 +144,51 @@ module.exports.getUserById = function (id) {
     });
   };
 
+// Update user Profile
+module.exports.updateUserProfile = function (id, userData) {
+    return new Promise((resolve, reject) => {
+      
+      const updateFields = {
+        user: userData.userName,
+        email: userData.email,
+        nationality: userData.nationality,
+        mainAirport: userData.mainAirport,
+        preferenceCarrier: userData.preferenceCarrier,
+        preferenceAlliance: userData.preferenceAlliance,
+       
+      };
+      User.findByIdAndUpdate(
+        id,
+        updateFields,
+        {
+          new: true,         
+          runValidators: true 
+        }
+      )
+        .select("-password") 
+        .exec()
+        .then(updatedUser => {
+          if (!updatedUser) {
+            reject(`User with id ${id} not found`);
+          } else {
+            resolve(updatedUser); 
+          }
+        })
+        .catch(err => {
+         
+          if (err.code === 11000) {
+            reject("User name already taken"); 
+          } else {
+            reject(err.message);
+          }
+        });
+    });
+  };
+
+
+
+
+
 // Get the user comparsion list from database
 module.exports.getComparsion = function(id){
     return new Promise(function(resolve, reject){
