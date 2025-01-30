@@ -186,6 +186,40 @@ module.exports.updateUserProfile = function (id, userData) {
   };
 
 
+  // Change user password
+  module.exports.updateUserPassword = function (id, oldPassword, newPassword) {
+    return new Promise((resolve, reject) => {
+      if (!oldPassword || !newPassword) {
+        return reject("Missing password fields");
+      }
+  
+      User.findById(id)
+        .exec()
+        .then((user) => {
+          if (!user) {
+            return reject("User not found");
+          }
+
+          return bcrypt.compare(oldPassword, user.password).then((isMatch) => {
+            if (!isMatch) {
+              reject("Old password is incorrect");
+            } else {
+            
+              return bcrypt
+                .hash(newPassword, 10)
+                .then((hashedNew) => {
+                  user.password = hashedNew;
+                  return user.save(); 
+                })
+                .then(() => {
+                  resolve("Password updated successfully");
+                });
+            }
+          });
+        })
+        .catch((err) => reject(err.message));
+    });
+  };
 
 
 

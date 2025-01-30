@@ -151,7 +151,6 @@ app.get("/api/user/profile", passport.authenticate('jwt', { session: false }), (
 });
 
 // Update user info
-
 app.put("/api/user/profile", passport.authenticate('jwt', {session:false}), (req, res) =>{
   const userId = req.user._id;
   const updateData = req.body;
@@ -159,10 +158,26 @@ app.put("/api/user/profile", passport.authenticate('jwt', {session:false}), (req
     .then(updatedUser =>{
       res.json(updatedUser);
     }).catch(msg =>{
-      res.status(422).json({error: msg});
+      res.status(422).json({ error: msg });
     });
 })
 
+
+
+// Update user password
+app.put("/api/user/changePassword", passport.authenticate('jwt', { session: false }), (req, res) => {
+  const userId = req.user._id;
+  const { oldPassword, newPassword } = req.body;
+
+  userService.updateUserPassword(userId, oldPassword, newPassword)
+    .then(updatePassword => {
+     
+      res.json(updatePassword);
+    })
+    .catch(msg => {
+      res.status(422).json({ error: msg });
+    });
+});
 
 // get comparsion list
 app.get("/api/user/comparsion", passport.authenticate('jwt', { session: false }), (req, res) =>{
