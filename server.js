@@ -124,11 +124,6 @@ app.post("/api/user/login", (req,res)=>{
     const payload = {
       _id: user._id,
       userName: user.userName,
-      email: user.email,
-      nationality: user.nationality,
-      mainAirport: user.mainAirport,
-      preferenceCarrier: user.preferenceCarrier,
-      preferenceAlliance: user.preferenceAlliance,
     };
 
     const token = jwt.sign(payload,process.env.JWT_SECRET);
@@ -143,14 +138,11 @@ app.post("/api/user/login", (req,res)=>{
 
 
 // Get user information by ID
-app.get("/api/user/profile/:userName", passport.authenticate('jwt', {session: false}), (req,res) =>{
-  const { userName } = req.params;
+app.get("/api/user/profile", passport.authenticate('jwt', {session: false}), (req,res) =>{
+  const userId = req.user._id;
 
-  if (!userName) {
-    return res.status(400).json({ error: "UserName is required" });
-}
 
-  userService.getUserByUserName(userName)
+  userService.getUserById(userId)
     .then(user =>{
       res.json(user);
     }).catch(msg =>{
