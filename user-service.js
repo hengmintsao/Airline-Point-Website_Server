@@ -128,21 +128,21 @@ module.exports.checkUser = function(userData){
 // Get user information by userName
 module.exports.getUserByUserName = function (userName) {
     return new Promise(function (resolve, reject) {
-        User.findOne({ userName })
-            .select('-password') // Exclude the password
-            .exec()
-            .then(user => {
-                if (user) {
-                    resolve(user);
-                } else {
-                    reject(`User with userName ${userName} not found`);
-                }
-            })
-            .catch(err => {
-                reject(`Error finding user: ${err.message}`);
-            });
+      User.findOne({ userName })
+        .select("-password") 
+        .exec()
+        .then(user => {
+          if (user) {
+            resolve(user);
+          } else {
+            reject(`User with userName ${userName} not found`);
+          }
+        })
+        .catch(err => {
+          reject(`Error finding user: ${err.message}`);
+        });
     });
-};
+  };
 
 // Get the user comparsion list from database
 module.exports.getComparsion = function(id){
