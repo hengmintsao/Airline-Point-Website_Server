@@ -40,25 +40,25 @@ let userSchema = new Schema({
     history: [Schema.Types.Mixed],
 });
 
-let User;
+const User = mongoose.model('users', userSchema);
 
 // set up user model, implement mongoDB connection and resolve the promise when connection is ready
-module.exports.connect = function(){
-    return new Promise(function(resolve, reject){
+// module.exports.connect = function(){
+//     return new Promise(function(resolve, reject){
 
-        let db = mongoose.createConnection(mongoDBConnection);
+//         let db = mongoose.createConnection(mongoDBConnection);
 
-        db.on('error', err => {
-            reject(err.message);
-        });
+//         db.on('error', err => {
+//             reject(err.message);
+//         });
 
-        db.once('open', () =>{
-            User = db.model("users", userSchema);
-            resolve(User);
-        });
+//         db.once('open', () =>{
+//             User = db.model("users", userSchema);
+//             resolve(User);
+//         });
 
-    });
-};
+//     });
+// };
 
 
 
