@@ -20,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "server.js"
+      "dest": "airline-point-website/$1"
     }
   ]
 }
