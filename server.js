@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+dotenv.config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -9,7 +10,7 @@ const passportJWT = require('passport-jwt');
 const userService = require('./user-service.js');
 // const fs = require('fs'); // For adding airport data purpose(Finished)
 // const Airport = require('./airport-data.js'); // For adding airport data purpose(Finished)
-dotenv.config();
+
 
 
 
