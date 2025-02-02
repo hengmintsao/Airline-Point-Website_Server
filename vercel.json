@@ -1,26 +1,20 @@
-
-
 {
   "version": 2,
   "builds": [
     {
-      "src": "airline-point-website/next.config.js",
-      "use": "@vercel/next"
-    },
-    {
       "src": "server.js",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["dist/**"] }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "airline-point-website/$1"
-    }
-  ]
+       "src": "/(.*)",
+       "dest": "server.js",
+        "methods": ["GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        "headers": {
+           "Access-Control-Allow-Origin": "*",
+           "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, x-rapidapi-key, x-rapidapi-host"
+       }
+   }
+ ]
 }
