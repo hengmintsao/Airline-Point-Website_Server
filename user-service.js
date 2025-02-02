@@ -40,7 +40,7 @@ let userSchema = new Schema({
     history: [Schema.Types.Mixed],
 });
 
-const User = mongoose.model('users', userSchema);
+let User;
 
 // set up user model, implement mongoDB connection and resolve the promise when connection is ready
 // module.exports.connect = function(){
