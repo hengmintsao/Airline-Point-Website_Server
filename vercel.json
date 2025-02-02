@@ -1,12 +1,6 @@
-
-
 {
   "version": 2,
   "builds": [
-    {
-      "src": "airline-point-website/next.config.js",
-      "use": "@vercel/next"
-    },
     {
       "src": "server.js",
       "use": "@vercel/node",
@@ -15,12 +9,8 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "airline-point-website/$1"
+      "dest": "server.js"
     }
   ]
 }
