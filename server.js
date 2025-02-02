@@ -327,11 +327,11 @@ app.get('/api/users/countries', async(req,res) =>{
 
 userService.connect()
   .then(() => {
-    console.log("Connected to DB");
+    app.listen(HTTP_PORT, () => {
+      console.log(`API listening on: ${HTTP_PORT}`);
+    });
   })
   .catch((err) => {
-    console.error("Unable to connect to DB:", err);
+    console.error("Unable to start server:", err);
     process.exit(1);
   });
-
-  module.exports = app;
