@@ -18,7 +18,7 @@ const HTTP_PORT = process.env.PORT || 8080;
 const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors({
-  origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app'],
+  origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app', 'https://airline-point-website.vercel.app'],
   credentials: true, // add this
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
