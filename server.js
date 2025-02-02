@@ -109,6 +109,11 @@ passport.use(strategy);
 app.use(express.json());
 app.use(passport.initialize());
 
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
+
+
 // Register
 app.post("/api/user/register", (req, res) => {
   console.log("Request body:", req.body); // test code
