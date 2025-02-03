@@ -114,6 +114,17 @@ app.get("/", (req, res) => {
 });
 
 
+//Save contact information
+app.post("/api/user/contact", (req, res) => {
+  userService.contactMe(req.body)
+      .then((msg) => {
+          res.json({ message: msg });
+      })
+      .catch((err) => {
+          res.status(422).json({ error: err });
+      });
+});
+
 // Register
 app.post("/api/user/register", (req, res) => {
   console.log("Request body:", req.body); // test code

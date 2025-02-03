@@ -40,7 +40,16 @@ let userSchema = new Schema({
     history: [Schema.Types.Mixed],
 });
 
+let contactSchema = new Schema({
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    email: { type: String, required: true, validate: { validator: validator.isEmail, message: 'Invalid email format' } },
+    phone: { type: String, required: true },
+    description: { type: String, required: true },
+});
+
 let User;
+let Contact;
 
 // set up user model, implement mongoDB connection and resolve the promise when connection is ready
 module.exports.connect = function(){
@@ -54,13 +63,44 @@ module.exports.connect = function(){
 
         db.once('open', () =>{
             User = db.model("users", userSchema);
+            Contact = db.model("contacts", contactSchema);
             resolve(User);
         });
 
     });
 };
 
+// Leave information on index.js page
+module.exports.contactMe = function (information){
+    console.log("Receive data", information);
+    return new Promise(function(resolve, reject){
 
+        if(!information.firstname){
+            reject("Missing required: firstname");
+        }
+
+        if(!information.lastname){
+            reject("Missing required: firstname");
+        }
+
+        if(!information.email){
+            reject("Missing required: email");
+        }
+
+        if(!information.phone){
+            reject("Missing required: phone");
+        }
+        if(!information.description){
+            reject("Missing required: firstname");
+        }
+        
+        let newContact = new Contact(information);
+        newContact
+            .save()
+            .then(() => resolve("Contact information saved successfully!"))
+            .catch((err) => reject("Failed to save contact information: " + err.message));
+    });
+}
 
 // Register a new user, hash password and save the user data to the database
 module.exports.registerUser = function (userData){
