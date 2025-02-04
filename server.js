@@ -8,18 +8,9 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const userService = require('./user-service.js');
-// const fs = require('fs'); // For adding airport data purpose(Finished)
-// const Airport = require('./airport-data.js'); // For adding airport data purpose(Finished)
-
-
-
-
-const HTTP_PORT = process.env.PORT || 8080;
 
 const MONGO_URL = process.env.MONGO_URL;
 
-
-// app.use(cors());
 app.use(cors({
   origin: ['http://localhost:3000','https://airline-point-website-server.vercel.app', 'https://airline-point-website.vercel.app'],
   credentials: true, // add this
@@ -27,22 +18,7 @@ app.use(cors({
   allowedHeaders: ['Content-type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
 }));
 
-// app.use(cors({
-//   origin: ['*'],
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'], 
-// }));
 
-// app.options('*', cors()); // test
-
-// const corsOptions = {
-//   origin: ['http://localhost:3000', 'https://airline-point-website-server.vercel.app'],
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'x-rapidapi-key', 'x-rapidapi-host'],
-// };
-
-// app.use(cors(corsOptions));
-// app.options('*', cors(corsOptions));
 
 mongoose.connect(MONGO_URL)
   .then(()=>{console.log('Connect to MongoDB!')})
@@ -51,39 +27,6 @@ mongoose.connect(MONGO_URL)
     process.exit(1);
 });
 
-
-// For adding airport data purpose(Finished)
-// function initializeAirportData(){
-//   const dataPath = '../side project/airport_database.txt';
-//   const airportCount = Airport.countDocuments();
-
-//   if(airportCount === 0){
-//     console.log('No airport data.');
-//   }
-
-//   const fileContent = fs.readFileSync(dataPath, 'utf-8');
-//   const lines = fileContent.split('\n');
-//   const header = lines.shift();
-
-//   for (const line of lines) {
-//     const [icao, iata, name, city, subd, country] = line.split(',').map(field => field.replace(/^"|"$/g, '').trim());
-
-//     if (!iata || iata.trim() === '' || iata.trim().length === 0) continue;
-
-//     const displayName = `${iata.trim()} - ${name.trim()}, ${city.trim()}, ${country.trim()}`;
-
-
-//     try {
-      
-//       Airport.create({
-//         iata: iata.trim(),
-//         displayName,
-//       });
-//     } catch (err) {
-//       console.error(`There is an error inserting data: ${line}`, err.message);
-//     }
-//   }
-// }
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
 
@@ -127,7 +70,6 @@ app.post("/api/user/contact", (req, res) => {
 
 // Register
 app.post("/api/user/register", (req, res) => {
-  console.log("Request body:", req.body); // test code
   userService.registerUser(req.body)
   .then((msg) => {
       res.json({ "message": msg });
@@ -280,7 +222,6 @@ app.get('/api/user/calculator', async (req, res) => {
   
     try {
       
-      console.log('Fetching airport data for:', iata); // test
       const response = await fetch(
         `https://airport-info.p.rapidapi.com/airport?iata=${iata}`,
         {
@@ -307,7 +248,6 @@ app.get('/api/user/calculator', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-//console.log('RAPIDAPI_KEY:', process.env.RAPIDAPI_KEY); test code
 
 app.get('/api/users/countries', async(req,res) =>{
   try{
@@ -323,17 +263,6 @@ app.get('/api/users/countries', async(req,res) =>{
     res.status(500).json({error: err.message});
   }
 });
-
-
-// app.connect()
-// .then(() =>{
-//   app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
-// }).catch((err) => {
-//   console.log("unable to start the server: " + err);
-//   process.exit();
-// });
-
-//app.listen(HTTP_PORT,() => console.log(`server listening on: ${HTTP_PORT}`));
 
 
 userService.connect()
